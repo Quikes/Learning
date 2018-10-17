@@ -12,7 +12,7 @@ public class DoorLogic : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        
+        door = this.gameObject;
         anim = door.GetComponentInParent<Animator>();
         anim.SetBool("DoorOpen", false);
         doorOpen = false;

@@ -6,13 +6,15 @@ public class EnemyAI : MonoBehaviour
 
 
     public float distance;
-    public Transform target;
+    public GameObject player = null;
     public float lookAtDistance = 25.0f;
     public float chaseRange = 15.0f;
     public float attackRange = 1.5f;
     public float moveSpeed = 5.0f;
     public float damping = 6.0f;
     public float attackSpeed = 1f;
+    public float damage = 10f;
+    public Transform target;
 
     public float attackDelay;
     
@@ -25,6 +27,8 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
         attackDelay = Time.time;
+        
+        
     }
 
     // Update is called once per frame
@@ -33,26 +37,35 @@ public class EnemyAI : MonoBehaviour
 
 
         attackDelay -= Time.deltaTime;
-
-        distance = Vector3.Distance(target.position, transform.position);
-
-        if (distance < lookAtDistance)
+        if (target != null)
         {
+            distance = Vector3.Distance(target.position, transform.position);
             
-            LookAt();
 
-        }
-        if (distance > lookAtDistance)
-        {
-            GetComponent<Renderer>().material.color = Color.green;
-        }
-        if (distance < attackRange)
-        {
-            Attack();
-        }else if (distance < chaseRange)
-        {
+
+            if (distance < lookAtDistance)
+            {
+
+                LookAt();
+
+            }
+            if (distance > lookAtDistance)
+            {
+                GetComponent<Renderer>().material.color = Color.green;
+            }
+            if (distance < attackRange)
+            {
+                Attack();
+            }
+            else if (distance < chaseRange)
+            {
+                Chase();
+            }
             
-            Chase();
+
+        }else if(player == null)
+        {
+            SearchForPlayer();
         }
 
     }
@@ -83,20 +96,27 @@ public class EnemyAI : MonoBehaviour
 
         if (attackDelay <=0)
         {
-            Debug.Log("Attack");
+            Debug.Log("Attacked");
+            target.SendMessage("ApplyDamage",damage, SendMessageOptions.DontRequireReceiver);
+            
             attackDelay = attackSpeed;
         }
         
 
     }
 
-    public void ApplyDamage()
+    
+    public void SearchForPlayer()
     {
-        chaseRange += 30;
-        moveSpeed += 2;
-        lookAtDistance += 40;
+        player = GameObject.FindGameObjectWithTag("Player");
 
+        if (player!= null){
+
+
+            target = player.transform;
+        }
     }
+    
 }
 
 
