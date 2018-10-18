@@ -9,9 +9,10 @@ public class MeleeSystem : MonoBehaviour
     public GameObject bloodeffect;
     private GameObject projectile;
     private GameObject arrow;
+    
 
     private int j;
-    private int i;
+    public int i;
 
     public GameObject activeWeapon;
     public GameObject Player;
@@ -34,6 +35,7 @@ public class MeleeSystem : MonoBehaviour
         meleeDamage = Weapons[i].GetComponent<Weapon>().meleeDamage;
         meleeRange = Weapons[i].GetComponent<Weapon>().meleeRange;
         projectile = null;
+        
 
     }
 
@@ -41,6 +43,8 @@ public class MeleeSystem : MonoBehaviour
 
 
     {
+        meleeDamage = Weapons[i].GetComponent<Weapon>().meleeDamage;
+        meleeRange = Weapons[i].GetComponent<Weapon>().meleeRange;
 
         if (Input.GetKeyDown("q"))
         {
@@ -69,14 +73,23 @@ public class MeleeSystem : MonoBehaviour
         
 
     }
+   
+    public void SetWeapon(int number)
+    {
+        Weapons[i].SetActive(false);
+        Weapons[number].SetActive(true);
+        
+        i = number;
 
+    }
     public void SwapWeapon()
     {
-
-
+        
+       
         if (Weapons[i].activeInHierarchy)
         {
             Weapons[i].SetActive(false);
+              
             if (i == Weapons.Length - 1)
             {
                 i = 0;
@@ -98,7 +111,7 @@ public class MeleeSystem : MonoBehaviour
         RaycastHit hit;
         Ray ray = CameraLocation.GetComponent<Camera>().ScreenPointToRay(new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0));
 
-        if (Weapons[i].GetComponent<Weapon>().type == "melee")
+        /*if (Weapons[i].GetComponent<Weapon>().type == "melee")
         {
             if (Physics.Raycast(Player.transform.position, Player.transform.TransformDirection(Vector3.forward), out hit))
             {
@@ -111,21 +124,24 @@ public class MeleeSystem : MonoBehaviour
                 }
 
             }
-        }
-        else if (Weapons[i].GetComponent<Weapon>().type == "hitscan")
+    }*/
+        if (Weapons[i].GetComponent<Weapon>().type == "hitscan" || Weapons[i].GetComponent<Weapon>().type == "melee" )
         {
 
-            if (Physics.Raycast(ray, out hit))
-                distance = hit.distance;
 
-            
+            if (Physics.Raycast(ray, out hit))
+
             {
-                Debug.DrawLine(ray.origin, hit.point,Color.red,5000000000f,false);
-                hit.transform.SendMessage(("ApplyDamage"), meleeDamage, SendMessageOptions.DontRequireReceiver);
-                Debug.Log(hit.collider.tag);
-                if (hit.collider.tag == "Enemy")
+                distance = hit.distance;
+                Debug.DrawLine(ray.origin, hit.point, Color.red, 5000000000f, false);
+                if (distance < meleeRange)
                 {
-                    Instantiate(bloodeffect, hit.point, Quaternion.LookRotation(hit.normal));
+                    hit.transform.SendMessage(("ApplyDamage"), meleeDamage, SendMessageOptions.DontRequireReceiver);
+                    Debug.Log(hit.collider.tag);
+                    if (hit.collider.tag == "Enemy")
+                    {
+                        Instantiate(bloodeffect, hit.point, Quaternion.LookRotation(hit.normal));
+                    }
                 }
             }
         }else if(Weapons[i].GetComponent<Weapon>().type == "ranged")

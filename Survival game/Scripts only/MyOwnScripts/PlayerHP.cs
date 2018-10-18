@@ -21,7 +21,7 @@ public class PlayerHP : MonoBehaviour {
     {
 
         Health -= Damage;
-        if (Health <= 0 || playerDead==false)
+        if (Health <= 0 && playerDead==false)
         {
             Debug.Log("You're Dead!");
             Die();
