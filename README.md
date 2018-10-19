@@ -21,6 +21,7 @@ There is not much to do in the game right now.
 Press shift to run, which also changes the animation of weapon.
 
 Press 'Q' to swap weapon to another.
+Press 'I' for Inventory!
 
 Press left mouse button to attack.
 
