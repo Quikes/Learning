@@ -11,7 +11,7 @@ public class DoorLogic : MonoBehaviour {
     
 	// Use this for initialization
 	void Start () {
-
+        
         door = this.gameObject;
         anim = door.GetComponentInParent<Animator>();
         anim.SetBool("DoorOpen", false);
@@ -19,13 +19,11 @@ public class DoorLogic : MonoBehaviour {
         doorstate = "close";
 
     }
-	
-	// Update is called once per frame
-	void Update () {
 
-        if(drawGUI==true && Input.GetKeyDown(KeyCode.E))
-        {
-            ChangeDoorState();
+    // Update is called once per frame
+    void Update()
+    {
+
             if (doorOpen)
             {
                 doorstate = "open";
@@ -35,14 +33,15 @@ public class DoorLogic : MonoBehaviour {
             {
                 doorstate = "close";
             }
-            
-        }
+        
+    }
 
-
-		
-	}
-
-    public void OnTriggerEnter(Collider collider)
+    public void Interact()
+    {
+        ChangeDoorState();
+        Debug.Log("interacting");
+    }
+    /*public void OnTriggerEnter(Collider collider)
     {
         if(collider.tag == "Player")
 
@@ -55,12 +54,12 @@ public class DoorLogic : MonoBehaviour {
 
         
     }
-    public void OnTriggerExit(Collider collider)
+    //public void OnTriggerExit(Collider collider)
     {
         drawGUI = false;
         
-    }
-    public void OnGUI()
+    }*/
+    /*public void OnGUI()
     {
         if (drawGUI == true)
         {
@@ -68,7 +67,7 @@ public class DoorLogic : MonoBehaviour {
         GUI.Box(new Rect(Screen.width*0.5f-75,Screen.height*0.2f-11,150,22), "Press 'E' to "+ doorstate);
         }
 
-    }
+    }*/
     public void ChangeDoorState()
     {
         doorOpen = !doorOpen;

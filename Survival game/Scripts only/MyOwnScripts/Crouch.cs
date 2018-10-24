@@ -5,13 +5,11 @@ using UnityEngine;
 public class Crouch : MonoBehaviour {
 
 
-    private float minimum;
-    private float maximum;
+    
     public CharacterController controller;
 	// Use this for initialization
 	void Start () {
-        minimum = 1.2f;
-        maximum = 1.8f;
+        
 	}
 	
 	// Update is called once per frame

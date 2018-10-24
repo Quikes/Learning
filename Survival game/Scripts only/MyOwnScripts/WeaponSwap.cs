@@ -8,14 +8,14 @@ using UnityEngine;
 public class WeaponSwap : MonoBehaviour {
 
     public GameObject[] Weapons;
-    public MeleeSystem melee;
-    private int j;
+    public WeaponSystem weaponSystem;
+    
     private int i;
     public GameObject activeWeapon;
 
     public void Start()
     {
-        j = Weapons.Length;
+        
         i = 0;
         activeWeapon = Weapons[0];
     }
